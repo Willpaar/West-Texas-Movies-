@@ -2,3 +2,11 @@
   margin: 0px;
   padding: 0px;
 }
+
+.itemContainer{
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 1vw;
+  width: 80vw;
+  margin: 20vh auto;
+}

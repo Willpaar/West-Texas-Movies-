@@ -1,0 +1,25 @@
+
+.itemCard{
+    padding: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    width: 100%;
+    box-shadow: 0px 0px 6px 1px #CFCFCF;
+}
+
+.itemCard img{
+    border-radius: 0;
+    width: 100%;
+}
+
+.ItemDetails{
+    padding: 12px 15px;
+}
+
+.cardPrice{
+    color: #333;
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 1.2em;
+    margin: 0;
+}
