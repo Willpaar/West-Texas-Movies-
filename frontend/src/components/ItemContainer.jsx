@@ -170,7 +170,7 @@ const items = [
       }
     ]
 
-const ItemContainer = (items) =>{
+const ItemContainer = () =>{
     return(
         <div className="itemContainer">
             {items.map((item)=>(
