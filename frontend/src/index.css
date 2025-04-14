@@ -1,0 +1,72 @@
+*{
+  margin: 0px;
+  padding: 0px;
+}
+body{
+  font-family: "Red Hat Display", sans-serif;
+
+}
+
+.itemContainer{
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 1vw;
+  width: 80vw;
+  margin: 20vh auto;
+}
+.imageContainer{
+  margin-top: 100px;
+  padding: 0px 10vw;
+}
+.imageContainer img{
+  width: 80vw;
+  height: 200px;
+  background-color: aquamarine;
+
+}
+.informationFlex{
+  display: flex;
+  gap: 2vw;
+  padding: 10vw;
+}
+.NameandDescription, .PriceAndButtons{
+  padding: 20px 5vw;
+  box-shadow: 0px 0px 10px #d7d7d7;
+  border-radius: 20px;
+}
+.NameandDescription{
+  width: 70%;
+}
+.PriceAndButtons{
+  width: 30%;
+}
+.name{
+  font-size: 36px;
+  font-weight: 800;
+}
+.description{
+  font-size: 20px;
+  font-weight: 300;
+}
+.price{
+  font-size: 40px;
+  text-align: center;
+  font-weight: 700;
+}
+.addToCartButton{
+  background-color: #FF4747;
+  color: white;
+  font-size: 20px;
+  width: fit-content;
+  padding: 10px 30px;
+  margin: 0 auto;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+.NameandDescription p{
+  font-size: 20px;
+  font-weight: 300;
+}
+.descriptionLabel{
+  font-weight: 600;
+}
