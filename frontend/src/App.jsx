@@ -1,7 +1,5 @@
-import { useState } from 'react'
 import Homepage from './pages/Homepage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Itempage from './pages/Itempage'
 function App() {
   return(
   <div>
@@ -12,7 +10,6 @@ function App() {
         <Routes>
 
           <Route path='/' element={<Homepage/>}/>
-          <Route path='/item/:id' element={<Itempage/>}/>
 
         </Routes>
     </BrowserRouter>
