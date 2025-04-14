@@ -1,0 +1,11 @@
+.Header{
+    display: flex;
+    justify-content: space-between;
+    padding: 1.2rem;
+    font-size: 2rem;
+    background-color: red;
+}
+.MenuSection{
+    display: flex;
+    gap: 40px;
+}
