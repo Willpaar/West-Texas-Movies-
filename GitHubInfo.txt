@@ -23,7 +23,10 @@ Link local code to your own branch:
 1. create branch locally
 $ git checkout -b branch-name
 
-2. set upstream so you can push and pull normally
+2. switch to branch
+git checkout branch-name
+
+3. set upstream so you can push and pull normally
 $ git push -u origin branch-name
 
 You can now push and pull to your own branch
