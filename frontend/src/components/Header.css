@@ -50,9 +50,9 @@
     flex: 1;
     padding: 1vw;
     border: none;
+    color: white;
     background-color: #757575;
     font-size: 3vw;
-    color: white;
     border-left: 2px solid black;
     border-right: 2px solid black;
     border-radius: 0.3vw;
@@ -61,6 +61,11 @@
 
   .menuOptionCont button:hover {
     transition: .5s;
+    color: rgb(220, 220, 220);
     background-color: rgb(85, 85, 85)
+  }
+
+  button a {
+    color: inherit;
   }
 
