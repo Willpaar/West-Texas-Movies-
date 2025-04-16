@@ -16,6 +16,7 @@
     font-family: "Bungee Spice", sans-serif;
     font-size: 5vw;
     margin-top: .5vw;
+    text-decoration: none;
   }
 
   .upperHeader button{
@@ -40,12 +41,12 @@
     padding-top: 0;
  }
 
-  .menuOptionCon {
+  .menuOptionCont {
     display: flex;
     width: 100%;
   }
   
-  .menuOptionCon button {
+  .menuOptionCont button {
     flex: 1;
     padding: 1vw;
     border: none;
@@ -58,7 +59,8 @@
 
   }
 
-  .menuOptionCon button:hover {
+  .menuOptionCont button:hover {
     transition: .5s;
     background-color: rgb(85, 85, 85)
   }
+
