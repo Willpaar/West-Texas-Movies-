@@ -11,17 +11,19 @@ export default function Header(){
                 <Link to="/">
                     <h1>West Texas Movies</h1>
                 </Link>
+                <Link to="/Login">
                 <div className="loginBtnCont">
                     {/*for now we keep the login button placeholder but when a user is logged in it will show an icon*/}
                     <button>Login</button>
                 </div>
+                </Link>
             </div>
             
             <div className="lowerHeader">
                 <div className="menuOptionCont">
-                    <button>Browse Movies</button>
-                    <button id="upcomming">Upcoming Movies</button>
-                    <button id="search">Search Movies</button>
+                    <button><Link to="/Browse">Browse Movies</Link></button>
+                    <button><Link to="/Upcoming">Upcoming Movies</Link></button>
+                    <button><Link to="/Search">Search Movies</Link></button>
                 </div>
             </div>
         </div>
