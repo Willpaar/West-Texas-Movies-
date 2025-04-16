@@ -1,0 +1,7 @@
+not sure exactly what will all be in here
+
+im guessing will put our database stuff in here what ever we decide to use.
+even though its not secure at all we can just use some csv files to store the database.
+we can easily write python scripts that can add, remove, read, ect. from the files 
+
+
