@@ -9,13 +9,11 @@ function App() {
   <div>
     <BrowserRouter>
         <Routes>
-
           <Route path='/' element={<Homepage/>}/>
           <Route path='/Login' element={<Login/>}/>
           <Route path='/Upcoming' element={<Upcoming/>}/>
           <Route path='/Search' element={<Search/>}/>
           <Route path='/Browse' element={<Browse/>}/>
-
         </Routes>
     </BrowserRouter>
   </div>
