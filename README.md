@@ -1,9 +1,8 @@
 This is the template 
-right now the backend folder doesnt do much 
 but the frontend holds the code for the website layout
+backend holds the database and the functions to access it
 
-to run this locally open a terminal:
-all you have to do is run the start.bat
+to run this locally all you have to do is run the start.bat
 (you made need to download the dependencies)
 
 pretty much to sum up whats going on the index.html is the first file react will call to run the website
