@@ -1,7 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import './Header.css'
+import { useState, useEffect } from 'react';
+
 export default function Header(){
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        const userID = sessionStorage.getItem('userID');
+        setIsLoggedIn(!!userID); // true if userID exists
+    }, []);
+
     return(
         <div className="header">
             <div className="upperHeader">
@@ -11,12 +20,17 @@ export default function Header(){
                 <Link to="/">
                     <h1>West Texas Movies</h1>
                 </Link>
-                <Link to="/Login">
                 <div className="loginBtnCont">
-                    {/*for now we keep the login button placeholder but when a user is logged in it will show an icon*/}
-                    <button>Login</button>
+                {isLoggedIn ? (
+                        <Link to="/Profile">
+                            <img src="/usericon.png"></img> 
+                        </Link>
+                    ) : (
+                        <Link to="/Login">
+                            <button>Login</button>
+                        </Link>
+                    )}
                 </div>
-                </Link>
             </div>
             
             <div className="lowerHeader">

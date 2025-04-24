@@ -10,8 +10,11 @@ export default function LoginBody(){
     const [apt, setApt] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [loginEmail, setLoginEmail] = useState('');
+    const [loginPassword, setLoginPassword] = useState('');
 
-    const handleSubmit = (e) => {
+    //signin functionality
+    const handleSignIn = (e) => {
         e.preventDefault();
 
         // Check if all required fields are filled (except 'apt')
@@ -95,12 +98,50 @@ export default function LoginBody(){
         });
     };
 
+    //login functionality
+    const handleLogin = (e) => {
+        e.preventDefault();
+
+        if (!loginEmail || !loginPassword) {
+            alert("Please enter your email and password.");
+            return;
+        }
+
+        const loginData = {
+            email: loginEmail,   
+            password: loginPassword,
+        };
+
+        fetch('http://localhost:8000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(loginData),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.success) {
+                alert('Login successful!');
+                // Store user ID in sessionStorage
+                sessionStorage.setItem('userID', data.data);
+                window.location.href = '/';
+            } else {
+                alert('Invalid email or password.');
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('There was an error logging in.');
+        });
+    };
+
     return(
         <div className="loginBody">
             <div className="loginCont">
                 <h1>Login</h1>
-                <input type="text" placeholder="Email" required/>
-                <input type="password" placeholder="Password" required/>
+                <input type="text" placeholder="Email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} required />
+                <input type="password" placeholder="Password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required />
                 <div className="signUpCont">
                     <p>Not Registered?</p>
                     {/*will make a pop up that shows the signup menu*/}
@@ -111,7 +152,7 @@ export default function LoginBody(){
                     {/*will make a pop up that shows the change password menu*/}
                     <a href="#ResetPassword">Reset Password</a>
                 </div>
-                <button id="signInBtn">Sign In</button>
+                <button id="signInBtn" onClick={handleLogin}>Sign In</button>
             </div>
 
 
@@ -126,7 +167,7 @@ export default function LoginBody(){
                     <input type="text" placeholder="Apt (Optional)" value={apt} onChange={(e) => setApt(e.target.value)} />
                     <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                     <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
-                    <button id="createAccBtn" onClick={handleSubmit}>Create Account</button>
+                    <button id="createAccBtn" onClick={handleSignIn}>Create Account</button>
                 </div>
             </div>
 

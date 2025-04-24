@@ -1,6 +1,7 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from Functions.AddtoUsers import AddtoUsers
+from Functions.FetchUser import FetchUser
 
 
 #this is the class to handle all requests to the backend
@@ -25,33 +26,30 @@ class RequestHandler(BaseHTTPRequestHandler):
 
         #Route handler functions
         def handle_create_account(data):
-            return AddtoUsers(
-                data['email'],
-                data['name'],
-                data['phone'],
-                data['address'],
-                data['apt'],
-                data['password']
-            )
+            return AddtoUsers(data['email'], data['name'], data['phone'], data['address'], data['apt'], data['password'])
+        
+        def handle_login(data):
+            return FetchUser(data['email'], data['password'])
         
         #if you want to add more functions add it to the route and the create a function above routes with all the data to be used
 
         #add routes here 
         routes = {
             '/create-account': handle_create_account,
+            '/login': handle_login,
         }
 
-
-
+        #any function you write must pass the result >= 1 or a string or it will assume it is a fail
         if self.path in routes:
             try:
                 result = routes[self.path](data)
                 self._set_headers()
                 
-                if result == 1:
-                    self.wfile.write(json.dumps({'success': True}).encode())
+                # Check if result is a successful integer or a non-empty string
+                if (isinstance(result, int) and result >= 1) or (isinstance(result, str) and result.strip()):
+                    self.wfile.write(json.dumps({'success': True, 'data': result}).encode())
                 else:
-                    self.wfile.write(json.dumps({'success': False, 'errorCode': result}).encode())
+                    self.wfile.write(json.dumps({'success': False, 'errorCode': result}).encode())  
 
             except Exception as e:
                 self.send_error(500, f'Error: {e}')
