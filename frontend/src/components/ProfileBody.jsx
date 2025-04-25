@@ -375,6 +375,11 @@ export default function ProfileBody() {
         });
     };
 
+    const logout = () => {
+        sessionStorage.removeItem('userID');
+        window.location.href = '/';
+    };
+
 
     return (
         <div className="profileBody">
@@ -382,8 +387,7 @@ export default function ProfileBody() {
                 <a href="#User">User Settings</a>
                 <a href="#OrderHistory">Order History</a>
                 {admin && <a href="#Admin">Admin Settings</a>}
-                <button id="logout">Logout</button>
-            </div>
+                <button id="logout" onClick={logout}>Logout</button></div>
             <div className="menuCont">
             <div id="User" className="userSettings">
                 <h1>User Settings</h1>
