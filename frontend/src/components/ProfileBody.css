@@ -69,6 +69,26 @@
     color: white;
 }
 
+.inputCont p {
+    font-size: 1.5vw;
+}
+
+.inputCont input {
+    padding: 10px 8px;
+    border-radius: 0.5rem;
+    font-size: 1vw;
+}
+
+.inputCont button {
+    background-color: #616161;
+    color: white;
+    padding: 10px;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    font-size: 1vw;
+}
+
 .menuCont h1{
     margin-left: 2vw;
 }
