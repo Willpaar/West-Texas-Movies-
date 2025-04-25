@@ -142,15 +142,17 @@ export default function LoginBody(){
                 <h1>Login</h1>
                 <input type="text" placeholder="Email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} required />
                 <input type="password" placeholder="Password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required />
-                <div className="signUpCont">
-                    <p>Not Registered?</p>
-                    {/*will make a pop up that shows the signup menu*/}
-                    <a href="#SignUp">Sign Up</a>
-                </div>
-                <div className="forgotCont">
-                    <p>Forgot Password?</p>
-                    {/*will make a pop up that shows the change password menu*/}
-                    <a href="#ResetPassword">Reset Password</a>
+                <div className="extraWrapper">
+                    <div className="signUpCont">
+                        <p>Not Registered?</p>
+                        {/*will make a pop up that shows the signup menu*/}
+                        <a href="#SignUp">Sign Up</a>
+                    </div>
+                    <div className="forgotCont">
+                        <p>Forgot Password?</p>
+                        {/*will make a pop up that shows the change password menu*/}
+                        <a href="#ResetPassword">Reset Password</a>
+                    </div>
                 </div>
                 <button id="signInBtn" onClick={handleLogin}>Sign In</button>
             </div>
