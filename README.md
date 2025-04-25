@@ -2,8 +2,18 @@ This is the template
 but the frontend holds the code for the website layout
 backend holds the database and the functions to access it
 
-to run this locally all you have to do is run the start.bat
+to run this locally all you have to do is run the start.bat if your on windows
 (you made need to download the dependencies)
+
+if you're on mac you need to 
+1. start the backend server
+cd to backend
+python server.py
+
+2. start the frontend server
+cd frontend
+npm run dev
+(you'll need npm and vite installed)
 
 pretty much to sum up whats going on the index.html is the first file react will call to run the website
 
@@ -13,8 +23,6 @@ this app.jsx file is pretty much the main file of the whole project and it holds
 then inside the ./pages folder we will change that code to add whatever webpages we will need
 
 then inside the ./components folder we will put simple templates for items on the webpage like headers, footers, ect.
-
-not 100% what ./assets is for yet
 
 the ./frontend/public folder will hold images that the website will use
 
