@@ -1,7 +1,7 @@
-not sure exactly what will all be in here
+server.py hosts the backend server if you change anything in it you will have to restart it
+the backend server handles recieving and sending data to and from the frontend
 
-im guessing will put our database stuff in here what ever we decide to use.
-even though its not secure at all we can just use some csv files to store the database.
-we can easily write python scripts that can add, remove, read, ect. from the files 
+database folder will hold our csv files
 
+put any funtions in the Functions folder 
 
