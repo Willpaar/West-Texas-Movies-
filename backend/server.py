@@ -2,6 +2,9 @@ import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from Functions.AddtoUsers import AddtoUsers
 from Functions.FetchUser import FetchUser
+from Functions.GetUserData import GetUserData
+import Functions.ChangeValues as Ch
+
 
 
 #this is the class to handle all requests to the backend
@@ -31,26 +34,59 @@ class RequestHandler(BaseHTTPRequestHandler):
         def handle_login(data):
             return FetchUser(data['email'], data['password'])
         
+        def handle_GetUserData(data):
+            print(data)
+            return GetUserData(data['ID'])
+        
+        def handle_ChangeName(data):
+            return Ch.changeName(data['ID'], data['name'])
+        
+        def handle_ChangeEmail(data):
+            return Ch.changeEmail(data['ID'], data['email'])
+
+        def handle_ChangePhone(data):
+            return Ch.changePhone(data['ID'], data['phone'])
+
+        def handle_ChangeAddress(data):
+            return Ch.changeAddress(data['ID'], data['address'], data['apt'])
+
+        def handle_ChangePassword(data):
+            return Ch.changePassword(data['ID'], data['oldPassword'], data['newPassword'])
+        
+        def handle_DeleteAccount(data):
+            return Ch.deleteAccount(data['ID'])
+        
+        def handle_GiveAdmin(data):
+            return Ch.giveAdmin(data['email'])
+        
         #if you want to add more functions add it to the route and the create a function above routes with all the data to be used
 
         #add routes here 
         routes = {
             '/create-account': handle_create_account,
             '/login': handle_login,
+            '/get-user-data': handle_GetUserData,
+            '/Change-Email': handle_ChangeEmail,
+            '/Change-Phone': handle_ChangePhone,
+            '/Change-Address': handle_ChangeAddress,
+            '/Change-Password': handle_ChangePassword,
+            '/Change-Name': handle_ChangeName,
+            '/Delete-Account': handle_DeleteAccount,
+            '/Give-Admin': handle_GiveAdmin,
         }
 
-        #any function you write must pass the result >= 1 or a string or it will assume it is a fail
+        #if the function returns any negative nunmber it will return an error else it will return the result
         if self.path in routes:
             try:
                 result = routes[self.path](data)
                 self._set_headers()
                 
-                # Check if result is a successful integer or a non-empty string
-                if (isinstance(result, int) and result >= 1) or (isinstance(result, str) and result.strip()):
-                    self.wfile.write(json.dumps({'success': True, 'data': result}).encode())
-                else:
+                if (isinstance(result, int) and result <= -1):
                     self.wfile.write(json.dumps({'success': False, 'errorCode': result}).encode())  
-
+                    print(result)
+                else:                
+                    self.wfile.write(json.dumps({'success': True, 'data': result}).encode())
+                    print(result)
             except Exception as e:
                 self.send_error(500, f'Error: {e}')
 

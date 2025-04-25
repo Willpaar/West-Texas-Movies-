@@ -1,4 +1,5 @@
 server.py hosts the backend server if you change anything in it you will have to restart it
+the backend server handles recieving and sending data to and from the frontend
 
 database folder will hold our csv files
 

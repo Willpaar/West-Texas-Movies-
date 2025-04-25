@@ -18,7 +18,7 @@ def AddtoUsers(email, name, phone, address, apt, password):
             reader = csv.reader(csvfile)
             for row in reader:
                 if row and row[0] == email:  
-                    return 0
+                    return -5
                 
     name = FixText.fixName(name)
     if name is False:

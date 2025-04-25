@@ -71,7 +71,7 @@ export default function LoginBody(){
                 window.location.hash = '';
             } else {
                 switch (data.errorCode) {
-                    case 0:
+                    case -5:
                         alert("Email is already taken.");
                         break;                       
                     case -1:
