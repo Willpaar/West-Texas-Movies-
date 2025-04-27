@@ -4,6 +4,7 @@ export default function BrowseBody(){
     return(
         <div className="browseBody">
             This is the Browse page 
+            <img src="/minecraftcover.png" alt="" />
         </div>
     )
 }

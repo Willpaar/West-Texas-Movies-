@@ -1,5 +1,7 @@
 import csv 
 import os
+import base64
+from cgi import FieldStorage
 from Functions import FixText
 
 def changeName(ID, newName):
@@ -215,3 +217,57 @@ def giveAdmin(email):
         writer.writerows(rows)
 
     return 1  # Success
+
+def addMovie(title, filename, location, upcoming, date, times, file):    
+    scriptDir = os.path.dirname(os.path.realpath(__file__))
+    UsersLocation = os.path.abspath(os.path.join(scriptDir, '../database/Movies.csv'))
+
+    title = FixText.fixTitle(title)
+
+    pngcheck = FixText.checkPNG(title, filename)
+
+    if pngcheck is False:
+        return -1
+    
+    if upcoming == 1:
+        date = ""
+        fixedTimes=""
+    else:
+        fixedTimes = FixText.fixTimes(times)
+        if fixedTimes is False:
+            print(fixedTimes)
+            return -2
+    
+    if isinstance(file, FieldStorage):
+        file_content = file.file.read()  # This reads the file content as bytes
+    else:
+        file_content = file  # If it's already in bytes, pass it through directly
+
+    addPNGtoPublic(file_content, filename)
+
+
+    with open(UsersLocation, 'a', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow([title, filename, location, upcoming, date, fixedTimes])
+        return 1
+
+def addPNGtoPublic(file, filename):
+    try:
+        # Set the path to the public directory where the file will be saved
+        frontend_public_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../frontend/public/')
+
+        # Ensure the directory exists
+        os.makedirs(frontend_public_dir, exist_ok=True)
+
+        # Create the full path for saving the file
+        save_path = os.path.join(frontend_public_dir, filename)
+
+        # Write the decoded file content to the file
+        with open(save_path, "wb") as f:
+            f.write(file)
+
+        print(f"File saved successfully to {save_path}")
+
+
+    except Exception as e:
+        print(f"Error saving file: {e}")
