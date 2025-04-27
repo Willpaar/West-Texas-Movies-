@@ -1,5 +1,8 @@
 import json
+import base64
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from urllib.parse import parse_qs
+import cgi
 from Functions.AddtoUsers import AddtoUsers
 from Functions.FetchUser import FetchUser
 from Functions.GetUserData import GetUserData
@@ -23,9 +26,30 @@ class RequestHandler(BaseHTTPRequestHandler):
 
     #call python functions here 
     def do_POST(self):
-        content_length = int(self.headers['Content-Length'])
-        post_data = self.rfile.read(content_length)
-        data = json.loads(post_data)
+        content_type = self.headers.get('Content-Type')
+
+                # If it's multipart/form-data (file upload for /Add-Movie)
+        if self.path == '/Add-Movie' and content_type and content_type.startswith('multipart/form-data'):
+            # Special handling for file uploads
+            pdict = cgi.parse_header(content_type)[1]
+            pdict['boundary'] = bytes(pdict['boundary'], "utf-8")
+            pdict['CONTENT-LENGTH'] = int(self.headers['Content-Length'])
+
+            form = cgi.FieldStorage(fp=self.rfile, headers=self.headers, environ={'REQUEST_METHOD': 'POST'}, keep_blank_values=True)
+
+            # Build 'data' dictionary manually from form fields
+            data = {}
+            for field in form.keys():
+                if field == 'file':
+                    data[field] = form[field]  # Keep the file object for 'file'
+                else:
+                    data[field] = form.getvalue(field)
+
+        else:
+            # Default: JSON body
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length)
+            data = json.loads(post_data)
 
         #Route handler functions
         def handle_create_account(data):
@@ -59,6 +83,20 @@ class RequestHandler(BaseHTTPRequestHandler):
         def handle_GiveAdmin(data):
             return Ch.giveAdmin(data['email'])
         
+        def handle_addMovie(data):
+            title = data['title']
+            location = data['location']
+            date = data['date']
+            times = data['times']
+            upcoming = data['upcoming']
+            
+            # 'filePath' is the file name and 'file' is the file content (base64 or binary)
+            filename = data.get('filePath')  # file name (string)
+            file_content = data.get('file')  # the actual file content (base64 or binary data)
+            
+            # Call your database function with the title, file path, and other data
+            return Ch.addMovie(title, filename, location, upcoming, date, times, file_content)
+        
         #if you want to add more functions add it to the route and the create a function above routes with all the data to be used
 
         #add routes here 
@@ -73,6 +111,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             '/Change-Name': handle_ChangeName,
             '/Delete-Account': handle_DeleteAccount,
             '/Give-Admin': handle_GiveAdmin,
+            '/Add-Movie': handle_addMovie,
         }
 
         #if the function returns any negative nunmber it will return an error else it will return the result

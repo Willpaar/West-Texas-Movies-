@@ -12,6 +12,43 @@ export default function ProfileBody() {
     const [confirmDelete, setConfirmDelete] = useState('');
     const [newOldPassword, setOldPassword] = useState('');
     const [newNewPassword, setNewPassword] = useState('');
+    const [inputs, setInputs] = useState(['']); 
+    const [title, setTitle] = useState('');
+    const [location, setLocation] = useState('');
+    const [date, setDate] = useState('');
+    const [file, setFile] = useState(null); // Added state to store file data
+    const [isUpcoming, setIsUpcoming] = useState(false);  // New state for the checkbox
+
+
+    function addInput() {
+        setInputs([...inputs, '']); // add a new empty string to the array
+    }
+
+    function handleInputChange(index, event) {
+        const newInputs = [...inputs];
+        newInputs[index] = event.target.value;
+        setInputs(newInputs);
+    }
+
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+        if (selectedFile) {
+            setFile(selectedFile); // Store the selected file itself, not an object
+        }
+    };
+    
+    
+    const handleLocationChange = (e) => {
+        setLocation(e.target.value);
+    };
+    
+    const handleDateChange = (e) => {
+        setDate(e.target.value);
+    };
+    
+    const handleTitleChange = (e) => {
+        setTitle(e.target.value);
+    };
 
     useEffect(() => {
         const userID = sessionStorage.getItem('userID');
@@ -380,7 +417,69 @@ export default function ProfileBody() {
         window.location.href = '/';
     };
 
-
+    const submitMovie = (e) => {
+        e.preventDefault();
+        console.log(file);
+    
+        // Validate required fields
+        if ((!file || !title || !location) && ((isUpcoming) || (!date || !inputs.some(input => input)))) {
+            alert("Please fill in all fields.");
+            return;
+        }
+    
+        if (containsComma(title) || containsComma(location) || containsComma(date) || inputs.some(input => containsComma(input))) {
+            alert("Commas are not allowed in any fields!");
+            return;
+        }
+    
+        let sendData = new FormData();
+    
+        // Add basic movie details to FormData
+        sendData.append('title', title);
+        sendData.append('filePath', file.name); // File name as filePath
+        sendData.append('location', location);
+        sendData.append('date', isUpcoming ? "" : date);  // Empty date for upcoming movies
+        sendData.append('times', isUpcoming ? "" : inputs.join(' '));  // Empty times for upcoming movies
+        sendData.append('upcoming', isUpcoming ? 1 : 0);  // Mark as upcoming or not
+    
+        // Add the file content to FormData
+        if (file) {
+            sendData.append('file', file);  // Append the actual file to be uploaded
+        } else {
+            alert("Please select a file!");
+            return;
+        }
+    
+        // Send the movie data to the backend
+        fetch('http://localhost:8000/Add-Movie', {
+            method: 'POST',
+            body: sendData,  // Send the FormData directly, which includes the file
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.success) {
+                alert('Movie added successfully!');
+            } else {
+                switch (data.errorCode) {
+                    case -1:
+                        alert("Please change the PNG name.");
+                        break;
+                    case -2:
+                        alert("Please enter a valid time.");
+                        break;
+                    default:
+                        alert("There was an error adding the movie.");
+                        break;
+                }
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('There was an error adding the movie.');
+        });
+    };
+    
+    
     return (
         <div className="profileBody">
             <div className="options">
@@ -391,7 +490,6 @@ export default function ProfileBody() {
             <div className="menuCont">
             <div id="User" className="userSettings">
                 <h1>User Settings</h1>
-
                 <div className="inputCont">
                     <p>Change Name: {name}</p>
                     <input type="text" placeholder="Name" value={newName} onChange={(e) => setName(e.target.value)} required />
@@ -443,6 +541,46 @@ export default function ProfileBody() {
                         <button onClick={giveAdmin}>Submit</button>
                     </div>
 
+                    <div className="inputCont">
+                        <p>Add Movie</p>
+                        <input type="text" placeholder='Title' value={title} onChange={handleTitleChange} />
+                        <div className="choosefile">
+                            <p>Choose a cover .png format</p>
+                            <input type="file" id="fileUpload" name="fileUpload" accept=".png" onChange={handleFileChange} />
+                        </div>
+                        <select value={location} onChange={handleLocationChange}>
+                            <option value="" disabled>Select a Location</option>
+                            <option value="Lubbock">Lubbock</option>
+                            <option value="Amarillo">Amarillo</option>
+                            <option value="Snyder">Snyder</option>
+                            <option value="Levelland">Levelland</option>
+                            <option value="Plainview">Plainview</option>
+                            <option value="Abilene">Abilene</option>
+                        </select>
+                        <div className="upcoming">
+                        <p>Upcoming?</p>
+                        <input 
+                            type="checkbox" 
+                            checked={isUpcoming} 
+                            onChange={(e) => setIsUpcoming(e.target.checked)} 
+                        />
+                        </div>
+                        <input type="date" id="date" name="Date" value={date} onChange={handleDateChange} />
+                        
+                        {inputs.map((input, index) => (
+                            <input
+                                key={index}
+                                type="text"
+                                name={`userInput[${index}]`}
+                                placeholder="Enter a Time"
+                                value={input}
+                                onChange={(e) => handleInputChange(index, e)}
+                            />
+                        ))}
+
+                        <button onClick={addInput}>Add Another Time</button>   
+                        <button onClick={submitMovie}>Add Movie</button>                
+                    </div>       
                 </div>
             )}
             </div>

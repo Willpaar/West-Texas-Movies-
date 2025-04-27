@@ -1,6 +1,6 @@
 .profileBody{
     display: flex;
-    height: 160vh;
+    height: 220vh;
     width: 500vh;
 }
 .options {
@@ -52,6 +52,14 @@
     .inputCont {
         display: flex;
 
+    }
+
+    .choosefile{
+        display: flex;
+    }
+
+    .upcoming{
+        display: flex;
     }
 }
 
