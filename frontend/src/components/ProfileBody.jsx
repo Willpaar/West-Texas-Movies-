@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './ProfileBody.css';
+import AddMovieForm from '../components/AddMovieForm.jsx';
 
 export default function ProfileBody() {
     const [userData, setUserData] = useState(null);
@@ -421,16 +422,18 @@ export default function ProfileBody() {
         e.preventDefault();
         console.log(file);
     
-        // Validate required fields
-        if ((!file || !title || !location) && ((isUpcoming) || (!date || !inputs.some(input => input)))) {
-            alert("Please fill in all fields.");
+        if (!title || !file || !date) {
+            alert("Please fill in the title, file, and date.");
             return;
         }
-    
-        if (containsComma(title) || containsComma(location) || containsComma(date) || inputs.some(input => containsComma(input))) {
-            alert("Commas are not allowed in any fields!");
-            return;
+
+        if (!isUpcoming) {
+            if (!location || inputs.every(input => input.trim() === '')) {
+                alert("For non-upcoming movies, you must select a location and enter at least one time.");
+                return;
+            }
         }
+
     
         let sendData = new FormData();
     
@@ -532,57 +535,98 @@ export default function ProfileBody() {
             <div id="OrderHistory" className="orderHistory">
                 order history
             </div>
-            {admin && (
-                <div id="Admin" className="adminSettings">
-                    <h1>Admin Settings</h1>
-                    <div className="inputCont">
-                        <p>Give Admin</p>
-                        <input type="text"  placeholder="Email" value={newAdminEmail} onChange={(e) => setAdminEmail(e.target.value)} required />
-                        <button onClick={giveAdmin}>Submit</button>
-                    </div>
+                {admin && (
+                    <div id="Admin" className="adminSettings">
+                        <h1>Admin Settings</h1>
 
-                    <div className="inputCont">
-                        <p>Add Movie</p>
-                        <input type="text" placeholder='Title' value={title} onChange={handleTitleChange} />
-                        <div className="choosefile">
-                            <p>Choose a cover .png format</p>
-                            <input type="file" id="fileUpload" name="fileUpload" accept=".png" onChange={handleFileChange} />
-                        </div>
-                        <select value={location} onChange={handleLocationChange}>
-                            <option value="" disabled>Select a Location</option>
-                            <option value="Lubbock">Lubbock</option>
-                            <option value="Amarillo">Amarillo</option>
-                            <option value="Snyder">Snyder</option>
-                            <option value="Levelland">Levelland</option>
-                            <option value="Plainview">Plainview</option>
-                            <option value="Abilene">Abilene</option>
-                        </select>
-                        <div className="upcoming">
-                        <p>Upcoming?</p>
-                        <input 
-                            type="checkbox" 
-                            checked={isUpcoming} 
-                            onChange={(e) => setIsUpcoming(e.target.checked)} 
-                        />
-                        </div>
-                        <input type="date" id="date" name="Date" value={date} onChange={handleDateChange} />
-                        
-                        {inputs.map((input, index) => (
+                        {/* Give Admin Section */}
+                        <div className="inputCont">
+                            <p>Give Admin</p>
                             <input
-                                key={index}
                                 type="text"
-                                name={`userInput[${index}]`}
-                                placeholder="Enter a Time"
-                                value={input}
-                                onChange={(e) => handleInputChange(index, e)}
+                                placeholder="Email"
+                                value={newAdminEmail}
+                                onChange={(e) => setAdminEmail(e.target.value)}
+                                required
                             />
-                        ))}
+                            <button onClick={giveAdmin}>Submit</button>
+                        </div>
 
-                        <button onClick={addInput}>Add Another Time</button>   
-                        <button onClick={submitMovie}>Add Movie</button>                
-                    </div>       
-                </div>
-            )}
+                        <div className="inputCont">
+                            <h2>Add Movie</h2>
+
+                            <input
+                                type="text"
+                                placeholder="Movie Title"
+                                value={title}
+                                onChange={handleTitleChange}
+                                required
+                            />
+
+                            
+
+                            <div className="choosefile">
+                                <p>Choose a cover (.png only)</p>
+                                <input
+                                    type="file"
+                                    id="fileUpload"
+                                    accept=".png"
+                                    onChange={handleFileChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="upcoming">
+                                <p>Upcoming?</p>
+                                <input
+                                    type="checkbox"
+                                    checked={isUpcoming}
+                                    onChange={(e) => setIsUpcoming(e.target.checked)}
+                                />
+                            </div>
+
+                            {/* Always show Date */}
+                            <input
+                                type="date"
+                                id="releaseDate"
+                                value={date}
+                                onChange={handleDateChange}
+                                required
+                            />
+
+                            {/* Only show Location and Times if NOT Upcoming */}
+                            {!isUpcoming && (
+                                <>
+                                    <select value={location} onChange={handleLocationChange} required>
+                                        <option value="" disabled>Select a Location</option>
+                                        <option value="Lubbock">Lubbock</option>
+                                        <option value="Amarillo">Amarillo</option>
+                                        <option value="Snyder">Snyder</option>
+                                        <option value="Levelland">Levelland</option>
+                                        <option value="Plainview">Plainview</option>
+                                        <option value="Abilene">Abilene</option>
+                                    </select>
+
+                                    {inputs.map((input, index) => (
+                                        <input
+                                            key={index}
+                                            type="text"
+                                            placeholder="Enter a Time (e.g. 12:00)"
+                                            value={input}
+                                            onChange={(e) => handleInputChange(index, e)}
+                                            required
+                                        />
+                                    ))}
+
+                                    <button type="button" onClick={addInput}>Add Another Time</button>
+                                </>
+                            )}
+
+                            <button onClick={submitMovie}>Add Movie</button>
+                        </div>
+
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -81,28 +81,4 @@ def fixTimes(times):
     return times  # Return the original times string if all times are valid
 
 def checkPNG(movieTitle, pngName):
-    # Define the path to your Movies.csv file
-    scriptDir = os.path.dirname(os.path.realpath(__file__))
-    usersLocation = os.path.abspath(os.path.join(scriptDir, '../database/Movies.csv'))
-
-    # Open the CSV file and check each row
-    try:
-        with open(usersLocation, mode='r') as file:
-            reader = csv.reader(file)
-            for row in reader:
-                # Assuming the first column is movie title and second is PNG file name
-                existingTitle = row[0]
-                existingPNG = row[1]
-                
-                # Check if the PNG name is already used by another movie
-                if existingPNG == pngName and existingTitle != movieTitle:
-                    return False  # PNG name is already used for another movie
-
-    except FileNotFoundError:
-        print(f"Error: The file {usersLocation} was not found.")
-        return False
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return False
-
     return True

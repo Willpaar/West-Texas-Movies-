@@ -5,6 +5,7 @@ import Search from './pages/Search.jsx'
 import Browse from './pages/Browse.jsx'
 import Profile from './pages/Profile.jsx'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import AddMovie from './pages/Addmovie.jsx'
 function App() {
   return(
   <div>
@@ -16,6 +17,7 @@ function App() {
           <Route path='/Search' element={<Search/>}/>
           <Route path='/Browse' element={<Browse/>}/>
           <Route path='/Profile' element={<Profile/>}/>
+          <Route path='/Add Movie' element={<AddMovie/>} />
         </Routes>
     </BrowserRouter>
   </div>

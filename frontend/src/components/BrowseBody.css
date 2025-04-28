@@ -1,0 +1,27 @@
+.movies-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.movie-card {
+    border: 1px solid #ccc;
+    padding: 16px;
+    width: 300px;
+    border-radius: 8px;
+    background-color: #747474;
+    text-align: center;
+}
+
+.movie-img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.showtimes {
+    margin-top: 10px;
+    text-align: left;
+}
