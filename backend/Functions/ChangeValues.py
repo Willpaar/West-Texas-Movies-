@@ -218,7 +218,7 @@ def giveAdmin(email):
 
     return 1  # Success
 
-def addMovie(title, filename, location, upcoming, date, times, file):    
+def addMovie(*, title, filename, location, upcoming, date, times, file):
     scriptDir = os.path.dirname(os.path.realpath(__file__))
     UsersLocation = os.path.abspath(os.path.join(scriptDir, '../database/Movies.csv'))
 

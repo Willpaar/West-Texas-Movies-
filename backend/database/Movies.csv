@@ -1,10 +1,8 @@
-Movie, Img, Location, Upcoming, Date, Times
+Movie,Img,Location,Upcoming,Date,Times
 The Minecraft Movie,minecraftcover.png,Lubbock,0,2025-04-26,12:00 12:30
 The Minecraft Movie,minecraftcover.png,Lubbock,0,2025-04-29,12:00 12:30
 The Minecraft Movie,minecraftcover.png,Abilene,0,2025-05-01,12:00 12:30
-The Minecraft Movie,minecraftcover.png,Plainview,0,2025-05-02,12:00 12:30
-The Minecraft Movie,minecraftcover.png,Abilene,0,2025-04-26,12:00 12:30
-The Minecraft Movie,minecraftcover.png,Snyder,0,2025-04-30,12:00 12:30
-The Minecraft Movie,minecraftcover.png,Snyder,0,2025-05-01,12:00 12:30
-The Minecraft Movie,minecraftcover.png,Abilene,0,2025-05-03,12:00 12:30
 The Minecraft Movie,minecraftcover.png,Levelland,0,2025-05-02,12:00 12:30
+Blade Runner 2049,bladerunner2049.png,Amarillo,0,2025-05-03,12:00
+Blade Runner 2049,bladerunner2049.png,Amarillo,0,2025-08-03,12:30
+Interstellar,Interstellar_.png,,1,,
