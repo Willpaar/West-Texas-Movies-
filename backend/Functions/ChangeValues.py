@@ -302,3 +302,13 @@ def deleteMovie(title, location, date):
         writer.writerows(updated_rows)
 
     return 1
+
+def addPurchase(userID, title, date, time, location, numberOfTickets):
+    # Get path to OrderHistory.csv
+    scriptDir = os.path.dirname(os.path.realpath(__file__))
+    UsersLocation = os.path.abspath(os.path.join(scriptDir, '../database/OrderHistory.csv'))
+
+    # Append the new row
+    with open(UsersLocation, mode='a', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file)
+        writer.writerow([userID, title, date, time, location, numberOfTickets])

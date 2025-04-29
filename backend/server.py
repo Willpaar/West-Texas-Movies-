@@ -5,6 +5,7 @@ from urllib.parse import parse_qs
 import cgi
 import csv
 
+from Functions.GetMovie import getMovie 
 from Functions.AddtoUsers import AddtoUsers
 from Functions.FetchUser import FetchUser
 from Functions.GetUserData import GetUserData
@@ -68,7 +69,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 movie_dict = {}
                 with open('database/Movies.csv', mode='r', encoding='utf-8') as file:
                     reader = csv.DictReader(file)
-                    for row in reader:
+                    for idx, row in enumerate(reader, start=1):  # start=1 for 1-based indexing
                         movie_title = row['Movie']
                         if movie_title not in movie_dict:
                             movie_dict[movie_title] = {
@@ -78,6 +79,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                                 'showtimes': []
                             }
                         movie_dict[movie_title]['showtimes'].append({
+                            'id': idx,  # Unique ID per showtime
                             'location': row['Location'],
                             'date': row['Date'],
                             'times': row['Times']
@@ -151,6 +153,12 @@ class RequestHandler(BaseHTTPRequestHandler):
 
     def handle_deleteMovie(self, data):
         return Ch.deleteMovie(data['title'],data ['location'], data['date'])
+    
+    def handle_getMovie(self, data):
+        return getMovie(data['ID'])
+    
+    def handle_addPurchase(self, data):
+        return Ch.addPurchase(data['userID'],data['title'],data['date'],data['time'],data['location'],data['numberOfTickets'])
 
     @property
     def routes(self):
@@ -167,6 +175,8 @@ class RequestHandler(BaseHTTPRequestHandler):
             '/Give-Admin': self.handle_GiveAdmin,
             '/Add-Movie': self.handle_addMovie,
             '/Delete-Movie': self.handle_deleteMovie,
+            '/Get-Movie': self.handle_getMovie,
+            '/Add-Purchase': self.handle_addPurchase,
         }
 
 # Run backend server
