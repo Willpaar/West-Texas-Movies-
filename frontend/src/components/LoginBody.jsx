@@ -121,6 +121,7 @@ export default function LoginBody(){
         })
         .then((response) => response.json())
         .then((data) => {
+            console.log('Login response:', data);  // ADD THIS
             if (data.success) {
                 alert('Login successful!');
                 // Store user ID in sessionStorage
@@ -158,9 +159,9 @@ export default function LoginBody(){
             </div>
 
 
-            <div id="SignUp" class="popupOverlay">
-                <div class="popup">
-                    <a href="#" class="close">&times;</a>
+            <div id="SignUp" className="popupOverlay">
+                <div className="popup">
+                    <a href="#" className="close">&times;</a>
                     <h2>Sign Up</h2>
                     <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                     <input type="text" placeholder="Full Name" value={name} onChange={(e) => setName(e.target.value)} required />
