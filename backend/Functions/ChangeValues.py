@@ -230,14 +230,13 @@ def addMovie(*, title, filename, location, upcoming, date, times, file):
         return -1
     
     if upcoming == 1:
-        date = ""
         fixedTimes=""
     else:
         fixedTimes = FixText.fixTimes(times)
         if fixedTimes is False:
             print(fixedTimes)
             return -2
-    
+            
     if isinstance(file, FieldStorage):
         file_content = file.file.read()  # This reads the file content as bytes
     else:
@@ -271,3 +270,35 @@ def addPNGtoPublic(file, filename):
 
     except Exception as e:
         print(f"Error saving file: {e}")
+
+def deleteMovie(title, location, date):
+    scriptDir = os.path.dirname(os.path.realpath(__file__))
+    UsersLocation = os.path.abspath(os.path.join(scriptDir, '../database/Movies.csv'))
+
+    title = FixText.fixTitle(title)  # Make sure the title is standardized the same way
+
+    updated_rows = []
+    movie_found = False
+
+    # Read all rows, and keep only those that don't match
+    with open(UsersLocation, 'r', newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            if len(row) < 6:
+                continue  # Skip malformed rows
+            row_title, _, row_location, _, row_date, _ = row
+            if row_title == title and row_location == location and row_date == date:
+                movie_found = True
+                continue  # Skip this row (i.e., delete it)
+            updated_rows.append(row)
+
+    # If no matching movie found, return an error code
+    if not movie_found:
+        return -1
+
+    # Rewrite the CSV without the deleted movie
+    with open(UsersLocation, 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerows(updated_rows)
+
+    return 1
