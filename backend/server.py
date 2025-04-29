@@ -24,6 +24,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         self._set_headers()
 
     def do_POST(self):
+
         content_type = self.headers.get('Content-Type')
 
         if self.path == '/Add-Movie' and content_type and content_type.startswith('multipart/form-data'):
@@ -128,14 +129,15 @@ class RequestHandler(BaseHTTPRequestHandler):
         upcoming = int(data['upcoming'])  # Make sure it's int (0 or 1)
         date = data['date']
         file_content = data.get('file')
+        location = data['location']
 
+        print(location)
         # HARD SET
         if upcoming == 1:
-            location = ''
             times = ''
         else:
-            location = data['location']
             times = data['times']
+
 
         return Ch.addMovie(
             title=title,
@@ -147,10 +149,8 @@ class RequestHandler(BaseHTTPRequestHandler):
             file=file_content
         )
 
-
-
-
-
+    def handle_deleteMovie(self, data):
+        return Ch.deleteMovie(data['title'],data ['location'], data['date'])
 
     @property
     def routes(self):
@@ -166,6 +166,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             '/Delete-Account': self.handle_DeleteAccount,
             '/Give-Admin': self.handle_GiveAdmin,
             '/Add-Movie': self.handle_addMovie,
+            '/Delete-Movie': self.handle_deleteMovie,
         }
 
 # Run backend server

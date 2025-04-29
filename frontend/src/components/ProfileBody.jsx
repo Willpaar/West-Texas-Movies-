@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './ProfileBody.css';
-import AddMovieForm from '../components/AddMovieForm.jsx';
 
 export default function ProfileBody() {
     const [userData, setUserData] = useState(null);
@@ -19,6 +18,9 @@ export default function ProfileBody() {
     const [date, setDate] = useState('');
     const [file, setFile] = useState(null); // Added state to store file data
     const [isUpcoming, setIsUpcoming] = useState(false);  // New state for the checkbox
+    const [deleteTitle, setDeleteTitle] = useState('');
+    const [deleteDate, setDeleteDate] = useState('');
+    const [deleteLocation, setDeleteLocation] = useState('');
 
 
     function addInput() {
@@ -93,14 +95,13 @@ export default function ProfileBody() {
     const changeName = (e) => {
         e.preventDefault();
 
-        if (containsComma(newName)) {
-            alert("Commas are not allowed!");
+        if (!newName) {
+            alert("Please enter a name.");
             return;
         }
 
-
-        if (!newName) {
-            alert("Please enter a name.");
+        if (containsComma(newName)) {
+            alert("Commas are not allowed!");
             return;
         }
 
@@ -136,13 +137,13 @@ export default function ProfileBody() {
     const changeEmail = (e) => {
         e.preventDefault();
 
-        if (containsComma(newEmail)) {
-            alert("Commas are not allowed!");
+        if (!newEmail) {
+            alert("Please enter an email.");
             return;
         }
 
-        if (!newEmail) {
-            alert("Please enter an email.");
+        if (containsComma(newEmail)) {
+            alert("Commas are not allowed!");
             return;
         }
 
@@ -227,11 +228,6 @@ export default function ProfileBody() {
     const changeAddress = (e) => {
         e.preventDefault();
 
-        if (containsComma(newAddress) || containsComma(newApt)) {
-            alert("Commas are not allowed!");
-            return;
-        }
-
         if (!newAddress) {
             alert("Please enter an Address.");
             return;
@@ -239,6 +235,11 @@ export default function ProfileBody() {
 
         if (!newApt){
             setApt('');
+        }
+
+        if (containsComma(newAddress) || containsComma(newApt)) {
+            alert("Commas are not allowed!");
+            return;
         }
 
         const userID = sessionStorage.getItem('userID');
@@ -274,11 +275,6 @@ export default function ProfileBody() {
     const changePassword = (e) => {
         e.preventDefault();
 
-        if (containsComma(newNewPassword) || containsComma(newOldPassword)) {
-            alert("Commas are not allowed!");
-            return;
-        }
-
         if (!newNewPassword) {
             alert("Please enter a new password.");
             return;
@@ -288,11 +284,16 @@ export default function ProfileBody() {
             alert("Please enter a the old password.");
             return;
         }
+    
+        if (containsComma(newNewPassword) || containsComma(newOldPassword)) {
+            alert("Commas are not allowed!");
+            return;
+        }
 
         if (newOldPassword === newNewPassword){
             alert("New password cannot be old password.");
             return;
-        }
+        }      
 
         const userID = sessionStorage.getItem('userID');
 
@@ -371,13 +372,13 @@ export default function ProfileBody() {
     const giveAdmin = (e) => {
         e.preventDefault();
 
-        if (containsComma(newAdminEmail)) {
-            alert("Commas are not allowed!");
+        if (!newAdminEmail) {
+            alert("Please enter an email.");
             return;
         }
 
-        if (!newAdminEmail) {
-            alert("Please enter an email.");
+        if (containsComma(newAdminEmail)) {
+            alert("Commas are not allowed!");
             return;
         }
 
@@ -395,7 +396,7 @@ export default function ProfileBody() {
         .then((response) => response.json())
         .then((data) => {
             if (data.success) {
-                alert('Successfully Changed Email!');
+                alert(`${newAdminEmail} is now an admin.`);
             } else {
                 switch (data.errorCode){
                     case -2:
@@ -420,10 +421,14 @@ export default function ProfileBody() {
 
     const submitMovie = (e) => {
         e.preventDefault();
-        console.log(file);
     
         if (!title || !file || !date) {
             alert("Please fill in the title, file, and date.");
+            return;
+        }
+
+        if(containsComma(title) || containsComma(file.name)){
+            alert("Inputs must not contain commas.")
             return;
         }
 
@@ -441,7 +446,7 @@ export default function ProfileBody() {
         sendData.append('title', title);
         sendData.append('filePath', file.name); // File name as filePath
         sendData.append('location', location);
-        sendData.append('date', isUpcoming ? "" : date);  // Empty date for upcoming movies
+        sendData.append('date', date);  
         sendData.append('times', isUpcoming ? "" : inputs.join(' '));  // Empty times for upcoming movies
         sendData.append('upcoming', isUpcoming ? 1 : 0);  // Mark as upcoming or not
     
@@ -482,6 +487,48 @@ export default function ProfileBody() {
         });
     };
     
+    const deleteMovie = (e) => {
+        e.preventDefault();
+
+        if (!deleteTitle || !deleteLocation || !deleteDate) {
+            alert("Please fill in the title, location, and date.");
+            return;
+        }
+    
+        if (containsComma(deleteTitle)) {
+            alert("Inputs must not contain commas.");
+            return;
+        }
+
+        const sendData = {
+            title: deleteTitle,
+            date: deleteDate,
+            location: deleteLocation
+        };
+
+        // Send the movie data to the backend
+        fetch('http://localhost:8000/Delete-Movie', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Ensure that we're sending JSON
+            },
+            body: JSON.stringify(sendData),  // Convert sendData to JSON string
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.success) {
+                alert('Movie Deleted successfully!');
+            } else {
+                alert("Could not find the specified movie, please check that the name, date, and location are correct.");
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('There was an error deleting the movie.');
+
+        
+        });
+    };
     
     return (
         <div className="profileBody">
@@ -624,6 +671,36 @@ export default function ProfileBody() {
 
                             <button onClick={submitMovie}>Add Movie</button>
                         </div>
+
+                        <div className="inputCont">
+                            <h1>Delete Movie</h1>
+                            <input
+                                type="text"
+                                placeholder="Movie Title"
+                                value={deleteTitle}
+                                onChange={(e) => setDeleteTitle(e.target.value)}
+                                required
+                            />
+                            <input
+                                type="date"
+                                id="releaseDate"
+                                value={deleteDate}
+                                onChange={(e) => setDeleteDate(e.target.value)}
+                                required
+                            />
+                            <select value={deleteLocation} onChange={(e) => setDeleteLocation(e.target.value)} required>
+                                <option value="" disabled>Select a Location</option>
+                                <option value="Lubbock">Lubbock</option>
+                                <option value="Amarillo">Amarillo</option>
+                                <option value="Snyder">Snyder</option>
+                                <option value="Levelland">Levelland</option>
+                                <option value="Plainview">Plainview</option>
+                                <option value="Abilene">Abilene</option>
+                            </select>
+                            
+                            <button type="button" onClick={deleteMovie}>Delete Movie</button>
+                        </div>
+
 
                     </div>
                 )}
