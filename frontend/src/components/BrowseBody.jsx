@@ -20,7 +20,7 @@ export default function BrowseBody({ movies }) {
                                     <div key={idx} className="showtime">
                                         <strong>{showtime.location}</strong> - {showtime.date}
                                         <div className="times">
-                                            {showtime.times.split(' ').map((time, i) => (
+                                            {showtime.times.split('   ').map((time, i) => (
                                                 <a
                                                     key={i}
                                                     href={`/purchase#id=${showtime.id}&time=${time}`}
