@@ -16,6 +16,7 @@ export default function ThankYouBody() {
     const printTickets = () => {
         alert('Tickets Printed!')
     }
+    
     return (
         <div>
             <h1>Thank you for your purchase!</h1>

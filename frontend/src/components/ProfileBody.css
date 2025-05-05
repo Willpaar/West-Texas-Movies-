@@ -61,6 +61,16 @@
     .upcoming{
         display: flex;
     }
+
+    .order-history-list{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .order-history-item{
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 /* Show the section that's targeted */
