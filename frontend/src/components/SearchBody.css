@@ -41,27 +41,15 @@
 }
 
 
-/* SearchBody.css */
-
-/* rename the keyframes to avoid conflicts */
 @keyframes searchScroll {
     to { transform: translateX(-100%); }
   }
   
-  /* only search cards animate */
-  .searchBody .movieCard {
-    /* all your other .movieCard rules here… */
-    animation: searchScroll 40s linear infinite;
-  }
-  
+
   .searchBody .movieCard:hover {
     animation-play-state: paused;
-    /* your glow here */
   }
   
-
-
-
 .movieImage {
     width: 100%;
     height: 400px;

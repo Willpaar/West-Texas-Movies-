@@ -26,6 +26,10 @@ export default function ProfileBody() {
     const [orderTimes, setOrderTimes] = useState([]);
     const [orderLocation, setOrderLocation] = useState([]);
     const [orderNumOfTickets, setOrderNumOfTickets] = useState([]);
+    const [selectedFileName, setSelectedFileName] = useState("");
+
+
+
 
 
     function addInput() {
@@ -40,6 +44,7 @@ export default function ProfileBody() {
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
+        setSelectedFileName(selectedFile.name);
         if (selectedFile) {
             setFile(selectedFile); // Store the selected file itself, not an object
         }
@@ -669,17 +674,17 @@ export default function ProfileBody() {
                                 required
                             />
 
-                            
-
                             <div className="choosefile">
-                                <p>Choose a cover (.png only)</p>
-                                <input
-                                    type="file"
-                                    id="fileUpload"
-                                    accept=".png"
-                                    onChange={handleFileChange}
-                                    required
-                                />
+                            <p>Choose a cover (.png only)</p>
+                            <label htmlFor="fileUpload" className="customFileUpload">Select File</label>
+                            <input 
+                                type="file"
+                                id="fileUpload"
+                                accept=".png"
+                                onChange={handleFileChange}
+                                required
+                            />
+                            <p className="filenameDisplay">{selectedFileName || "No file selected"}</p>
                             </div>
 
                             <div className="upcoming">
