@@ -1,40 +1,74 @@
-import React from 'react';
+// UpcomingBody.js
+import React, { useState, useEffect, useRef } from 'react';
 import './UpcomingBody.css';
-import { useState, useEffect } from 'react';
 
 export default function Upcoming() {
-    const [upcomingMovies, setUpcomingMovies] = useState([]);
+  const [movies, setMovies]     = useState([]);
+  const [activeIndex, setIndex] = useState(0);
+  const trackRef                = useRef(null);
 
-    useEffect(() => {
-        fetch('http://localhost:8000/get-movies')
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    const upcoming = data.movies.filter(movie => parseInt(movie.upcoming) === 1);
-                    setUpcomingMovies(upcoming);
-                }
-            })
-            .catch(err => console.error('Error fetching upcoming movies:', err));
-    }, []);
+  useEffect(() => {
+    fetch('http://localhost:8000/get-movies')
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          const list = data.movies.filter(m => +m.upcoming === 1);
+          setMovies(list);
+          setIndex(0);
+        }
+      })
+      .catch(console.error);
+  }, []);
 
+  const prev = () => setIndex(i => Math.max(0, i - 1));
+  const next = () => setIndex(i => Math.min(movies.length - 1, i + 1));
+
+  if (!movies.length) {
     return (
-        <div className="upcomingPage">
-            <div className="upcomingContainer">
-                <h1>Upcoming Movies</h1>
-                {upcomingMovies.length === 0 ? (
-                    <p>No upcoming movies right now!</p>
-                ) : (
-                    upcomingMovies.map((movie, index) => (
-                        <div className="movieCard" key={index}>
-                            <img src={`/${movie.img}`} alt={movie.title} className="movieImage" />
-                            <h2>{movie.title}</h2>
-                            {movie.showtimes.length > 0 && movie.showtimes[0].date && (
-                                <p>Release Date: {movie.showtimes[0].date}</p>
-                            )}
-                        </div>
-                    ))
-                )}
-            </div>
-        </div>
+      <p style={{ color:'#fff', textAlign:'center', marginTop:50 }}>
+        Loading upcoming movies…
+      </p>
     );
+  }
+
+  return (
+    <div className="upcomingPage">
+      <div className="upcomingMoviesCont">
+        <div
+          className="carousel-bg1"
+          style={{ backgroundImage: `url(/${movies[activeIndex].img})` }}
+        />
+        <button
+          className="nav prev"
+          onClick={prev}
+          disabled={activeIndex === 0}
+        >‹</button>
+        <button
+          className="nav next"
+          onClick={next}
+          disabled={activeIndex === movies.length - 1}
+        >›</button>
+      </div>
+
+      <div className="carousel">
+        <div className="slider-track" ref={trackRef}>
+          {movies.map((m, i) => (
+            <div
+              key={i}
+              className={`movieCard${i === activeIndex ? ' active' : ''}`}
+              onClick={() => setIndex(i)}
+            >
+              <img src={`/${m.img}`} alt={m.title} className="movieImage"/>
+              <h2>{m.title}</h2>
+              {m.showtimes?.[0]?.date && (
+                <p className="releaseDate">
+                  Release Date: {m.showtimes[0].date}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }

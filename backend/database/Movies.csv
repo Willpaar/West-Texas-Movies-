@@ -1,11 +1,24 @@
 Movie,Img,Location,Upcoming,Date,Times
-The Minecraft Movie,minecraftcover.png,Lubbock,0,2025-04-29,12:00 12:30
-The Minecraft Movie,minecraftcover.png,Abilene,0,2025-05-01,12:00 12:30
-The Minecraft Movie,minecraftcover.png,Levelland,0,2025-05-02,12:00 12:30
-Blade Runner 2049,bladerunner2049.png,Amarillo,0,2025-05-03,12:00
-Blade Runner 2049,bladerunner2049.png,Amarillo,0,2025-08-03,12:30
+The Minecraft Movie,minecraftcover.png,Lubbock,0,4/29/2025,12:00 12:30
+The Minecraft Movie,minecraftcover.png,Abilene,0,5/1/2025,12:00 12:30
+The Minecraft Movie,minecraftcover.png,Levelland,0,5/2/2025,12:00 12:30
+Blade Runner 2049,bladerunner2049.png,Amarillo,0,5/3/2025,12:00
+Blade Runner 2049,bladerunner2049.png,Amarillo,0,8/3/2025,12:30
 Interstellar,Interstellar_.png,,1,2025-13-06,
-The Minecraft Movie,minecraftcover.png,Snyder,0,2025-04-30,12:00 12:30
-The Minecraft Movie,minecraftcover.png,Lubbock,0,2025-05-10,12:00 12:30
-Forrest Gump,forrestgumpcover.png,,1,2025-05-10,
-Cars,Carscover.png,,1,2025-06-11,
+The Minecraft Movie,minecraftcover.png,Snyder,0,4/30/2025,12:00 12:30
+The Minecraft Movie,minecraftcover.png,Lubbock,0,5/10/2025,12:00 12:30
+Forrest Gump,forrestgumpcover.png,,1,5/10/2025,
+Cars,Carscover.png,,1,6/11/2025,
+Sinners,sinners.png,,1,5/11/2025,
+Sinners,sinners.png,,1,5/11/2025,
+How To Train Your Dragon,Train_your_dragon.png,,1,2025-05-12,
+Thunderbolts,Thunder_Bolts.png,,1,2025-05-12,
+Captain America: Brave New World,Captain_America.png,,1,2025-05-12,
+Flow,FLow.png,Lubbock,0,2025-04-29,12:00 01:30 04:00 07:00
+Shang-chi,Shang-chi.png,Amarillo,0,2025-05-01,12:00 03:00
+Snow White,Snow White.png,Lubbock,0,2025-05-01,01:30 03:45 05:45 07:30 08:45
+If,IF.png,Levelland,0,2025-04-29,01:30 03:45 05:45 07:30 08:45
+Furiosa,Furiosa.png,Lubbock,0,2025-04-29,11:00 03:45   
+Wicked,Wicked.png,Amarillo,0,2025-05-01,12:00 05:45 09:30   
+Fall Guy,Fall_Guy.png,Amarillo,0,2025-05-01,03:00 07:45 10:30    
+Moana 2,Moana 2.png,Lubbock,0,2025-04-29,11:00 12:45 01:30    
