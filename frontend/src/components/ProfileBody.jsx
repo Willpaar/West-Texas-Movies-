@@ -21,6 +21,11 @@ export default function ProfileBody() {
     const [deleteTitle, setDeleteTitle] = useState('');
     const [deleteDate, setDeleteDate] = useState('');
     const [deleteLocation, setDeleteLocation] = useState('');
+    const [orderMovieTitles, setOrderMovieTitles] = useState([]);
+    const [orderDates, setOrderDates] = useState([]);
+    const [orderTimes, setOrderTimes] = useState([]);
+    const [orderLocation, setOrderLocation] = useState([]);
+    const [orderNumOfTickets, setOrderNumOfTickets] = useState([]);
 
 
     function addInput() {
@@ -70,8 +75,42 @@ export default function ProfileBody() {
                 }
             })
             .catch(err => console.error('Error fetching user data:', err));
-    }, []);
 
+            // Fetch order history
+        fetch('http://localhost:8000/Get-Order-History', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ID: parseInt(userID) })
+        })
+            .then(response => response.json())
+            .then(orderHistory => {
+                // Assuming orderHistory is an array of order objects
+                const orders = Object.values(orderHistory)[1];
+
+                const titles = [];
+                const dates = [];
+                const times = [];
+                const locations = [];
+                const numTickets = [];
+
+                orders.forEach(order => {
+                    titles.push(order.movieTitle);
+                    dates.push(order.date);
+                    times.push(order.time);
+                    locations.push(order.location);
+                    numTickets.push(order.numTickets);
+                });
+
+                setOrderMovieTitles(titles);
+                setOrderDates(dates);
+                setOrderTimes(times);
+                setOrderLocation(locations);
+                setOrderNumOfTickets(numTickets);
+            
+            })
+            .catch(err => console.error('Error fetching order history:', err));
+    }, []);
+    
     function processUserData(data) {
         if (data.success && data.data) {
             return {
@@ -529,6 +568,10 @@ export default function ProfileBody() {
         
         });
     };
+
+    const printTickets = () => {
+        alert('Tickets Printed!')
+    }
     
     return (
         <div className="profileBody">
@@ -580,7 +623,23 @@ export default function ProfileBody() {
             </div>
 
             <div id="OrderHistory" className="orderHistory">
-                order history
+                <h1>Order History</h1>
+                {orderMovieTitles.length > 0 ? (
+                    <div className="order-history-list">
+                        {orderMovieTitles.map((title, index) => (
+                            <div key={index} className="order-history-item">
+                                <h3>{`Tickets to see ${title}:`}</h3>
+                                <p><strong>Location:</strong> {orderLocation[index]}</p>
+                                <p><strong>Date:</strong> {orderDates[index]}</p>
+                                <p><strong>Time:</strong> {orderTimes[index]}</p>
+                                <p><strong>Number of Tickets:</strong> {orderNumOfTickets[index]}</p>
+                                <button onClick={printTickets}>Print Tickets</button>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <p>No orders found.</p>
+                )}
             </div>
                 {admin && (
                     <div id="Admin" className="adminSettings">

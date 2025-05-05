@@ -9,6 +9,7 @@ from Functions.GetMovie import getMovie
 from Functions.AddtoUsers import AddtoUsers
 from Functions.FetchUser import FetchUser
 from Functions.GetUserData import GetUserData
+from Functions.getOrderHistory import getOrderHistory
 import Functions.ChangeValues as Ch
 
 # This is the class to handle all requests to the backend
@@ -159,6 +160,9 @@ class RequestHandler(BaseHTTPRequestHandler):
     
     def handle_addPurchase(self, data):
         return Ch.addPurchase(data['userID'],data['title'],data['date'],data['time'],data['location'],data['numberOfTickets'])
+    
+    def handle_getOrderHistory(self, data):
+        return getOrderHistory(data['ID'])
 
     @property
     def routes(self):
@@ -177,6 +181,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             '/Delete-Movie': self.handle_deleteMovie,
             '/Get-Movie': self.handle_getMovie,
             '/Add-Purchase': self.handle_addPurchase,
+            '/Get-Order-History': self.handle_getOrderHistory,
         }
 
 # Run backend server
