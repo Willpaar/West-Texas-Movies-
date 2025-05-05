@@ -1,0 +1,77 @@
+.upcomingPage {
+    text-align: center;
+    padding: 20px;
+}
+
+.upcomingMoviesCont {
+    margin-top: 20px;
+}
+
+.moviesGrid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 25%;
+
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+
+
+.movieCard {
+    width: 350px;
+    margin-top: 5rem;
+    background-color: rgba(0,0,0,0.6);
+    border-radius: 10px;
+    overflow: hidden;
+
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 2px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    animation: scroll 40s linear infinite;
+}
+
+.movieCard:hover {
+    animation-play-state: paused;
+    box-shadow:
+    0 0 30px rgba(255, 255, 255, 0.6),
+    0 0 80px rgba(255, 81, 0, 0.7),
+    0 0 150px rgba(252, 56, 56, 0.8);
+}
+
+
+/* SearchBody.css */
+
+/* rename the keyframes to avoid conflicts */
+@keyframes searchScroll {
+    to { transform: translateX(-100%); }
+  }
+  
+  /* only search cards animate */
+  .searchBody .movieCard {
+    /* all your other .movieCard rules here… */
+    animation: searchScroll 40s linear infinite;
+  }
+  
+  .searchBody .movieCard:hover {
+    animation-play-state: paused;
+    /* your glow here */
+  }
+  
+
+
+
+.movieImage {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.releaseDate {
+    font-size: 1rem;
+    margin-top: 10px;
+    color: #ffffff;
+}
+
