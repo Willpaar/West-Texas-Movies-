@@ -5,7 +5,7 @@ export default function SearchBody() {
   const [upcomingMovies, setUpcomingMovies] = useState([]);
   const [activeIndex, setActiveIndex]       = useState(0);
   const cardRefs = useRef([]); 
-
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     fetch('http://localhost:8000/get-movies')
@@ -37,16 +37,14 @@ export default function SearchBody() {
             : 'none'
         }}
       />
-
+      <input className='inputTag' value={search} onChange={(e)=>setSearch(e.target.value)} placeholder='Search movies...'/>
       <div className="upcomingMoviesCont">
-        <h1></h1>
-
         {upcomingMovies.length === 0 ? (
           <p>No upcoming movies right now!</p>
         ) : (
           <div className="carousel">
             <div className="moviesGrid">
-              {upcomingMovies.map((movie, i) => (
+              {upcomingMovies.filter(movie=>movie.title.toLowerCase().includes(search)).map((movie, i) => (
                 <div
                   key={i}
                   ref={el => (cardRefs.current[i] = el)}
