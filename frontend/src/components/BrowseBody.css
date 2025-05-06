@@ -6,6 +6,13 @@
     justify-content: center;
 }
 
+.movie-description {
+    margin-top: 10px;
+    font-style: italic;
+    color: #444;
+}
+
+
 .movie-card {
     border: 1px solid #ccc;
     padding: 16px;
@@ -24,4 +31,12 @@
 .showtimes {
     margin-top: 10px;
     text-align: left;
+    color: white;
+}
+
+
+.times{
+    color: black;
+
+
 }

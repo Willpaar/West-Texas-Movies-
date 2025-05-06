@@ -56,20 +56,40 @@
 
     .choosefile{
         display: flex;
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
     }
 
     .upcoming{
         display: flex;
+        margin: 0;
+        padding: 0;
+        gap: 6vw;
     }
 
     .order-history-list{
         display: flex;
         flex-direction: column;
+        padding: 0;
     }
 
     .order-history-item{
         display: flex;
         flex-direction: column;
+    }
+
+    .order-history-list button{
+        width: 20vw;
+        height: 2.5vw;
+        background-color: #00f40c;
+        border-radius: 0.5vw;
+        font-size: 1vw;
+    }
+
+    .order-history-list button:hover{
+        transition: .5s;
+        background-color: #00c10a;
     }
 }
 
@@ -115,6 +135,14 @@
     width: 30vw;
 }
 
+.inputCont select{
+    width: 30vw;
+    padding: 10px 8px;
+    border-radius: 0.5rem;
+    font-size: 1vw;
+
+}
+
 #delete{
     background-color: #ff0000;
 }
@@ -123,3 +151,24 @@
     background-color: #b80000;
 }
 
+.choosefile input[type="file"] {
+    display: none; /* hide default */
+}
+
+.customFileUpload {
+    display: inline-block;
+    width: 15vw;
+    height: 3vw;
+    line-height: 50px;
+    background-color: #616161;
+    color: white;
+    text-align: center;
+    border-radius: 0.5rem;
+    font-size: 1.2vw;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.customFileUpload:hover {
+    background-color: #444;
+}

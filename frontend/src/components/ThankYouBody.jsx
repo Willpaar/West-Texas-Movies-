@@ -27,6 +27,7 @@ export default function ThankYouBody() {
                 <h1>Thank You For Your Purchase!</h1>
                 <p>You bought {tickets} ticket{tickets !== "1" && "s"} to see {title} on {date} at {time} in {location}.</p>
                 <p>You can view you order history in user settings</p>
+                <img src="barcodes/barcode8.png" alt="" />
                 <button onClick={printTickets}>Print Tickets</button>
             </div>
         </div>

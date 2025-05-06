@@ -218,13 +218,15 @@ def giveAdmin(email):
 
     return 1  # Success
 
-def addMovie(*, title, filename, location, upcoming, date, times, file):
+def addMovie(*, title, description, filename, location, upcoming, date, times, file):
     scriptDir = os.path.dirname(os.path.realpath(__file__))
     UsersLocation = os.path.abspath(os.path.join(scriptDir, '../database/Movies.csv'))
 
     title = FixText.fixTitle(title)
 
     pngcheck = FixText.checkPNG(title, filename)
+
+    description = FixText.fixDescription(description)
 
     if pngcheck is False:
         return -1
@@ -247,7 +249,7 @@ def addMovie(*, title, filename, location, upcoming, date, times, file):
 
     with open(UsersLocation, 'a', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow([title, filename, location, upcoming, date, fixedTimes])
+        writer.writerow([title, filename, location, upcoming, date, fixedTimes,description,""])
         return 1
 
 def addPNGtoPublic(file, filename):
@@ -312,3 +314,34 @@ def addPurchase(userID, title, date, time, location, numberOfTickets):
     with open(UsersLocation, mode='a', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
         writer.writerow([userID, title, date, time, location, numberOfTickets])
+
+
+def addReview(ID, review):
+    # Get the absolute path to Movies.csv
+    scriptDir = os.path.dirname(os.path.realpath(__file__))
+    UsersLocation = os.path.abspath(os.path.join(scriptDir, '../database/Movies.csv'))
+
+    # Read all rows from the CSV
+    with open(UsersLocation, 'r', newline='', encoding='utf-8') as file:
+        reader = list(csv.reader(file))
+
+    # Check if the ID is valid
+    if ID <= 0 or ID >= len(reader):
+        print("Invalid ID")
+        return
+
+    # Append the review to the Reviews column
+    if len(reader[ID]) < 8:
+        # If Reviews column is missing, add it
+        reader[ID].append(review)
+    else:
+        # If already a review exists, append with separator
+        if reader[ID][7].strip():
+            reader[ID][7] += f' | {review}'
+        else:
+            reader[ID][7] = review
+
+    # Write updated rows back to the CSV
+    with open(UsersLocation, 'w', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file)
+        writer.writerows(reader)

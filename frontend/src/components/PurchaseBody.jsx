@@ -15,7 +15,7 @@ export default function PurchaseBody({ movie }) {
     const navigate = useNavigate();
 
     const changeQuantity = (delta) => {
-        setTicketCount((prev) => Math.max(1, prev + delta));
+        setTicketCount((prev) => Math.min(10, Math.max(1, prev + delta)));
     };
 
     const handlePurchase = async () => {
