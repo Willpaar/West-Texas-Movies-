@@ -54,4 +54,8 @@
   .thankYouCont button:hover {
     background-color: #ff5900;
   }
+
+  .thankYouCont img{
+    width: 100%;
+  }
   

@@ -19,7 +19,6 @@ export default function ThankYouBody() {
     
     return (
         <div className="thankYouPage">
-            <h1>Thank you for your purchase!</h1>
             <div className="coverCont1">
             <img className="coverImage" src={img} alt="" />
             </div>
