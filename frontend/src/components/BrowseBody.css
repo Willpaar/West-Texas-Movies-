@@ -6,6 +6,13 @@
     justify-content: center;
 }
 
+.movie-description {
+    margin-top: 10px;
+    font-style: italic;
+    color: #444;
+}
+
+
 .movie-card {
     border: 1px solid #ccc;
     padding: 16px;

@@ -77,7 +77,9 @@ class RequestHandler(BaseHTTPRequestHandler):
                                 'title': movie_title,
                                 'img': row['Img'],
                                 'upcoming': row['Upcoming'],
-                                'showtimes': []
+                                'showtimes': [],                                
+                                'description': row["Description"],
+                                'reviews': row["Reviews"],
                             }
                         movie_dict[movie_title]['showtimes'].append({
                             'id': idx,  # Unique ID per showtime
@@ -128,6 +130,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
     def handle_addMovie(self, data):
         title = data['title']
+        description = data['description']
         filename = data.get('filePath')
         upcoming = int(data['upcoming'])  # Make sure it's int (0 or 1)
         date = data['date']
@@ -144,6 +147,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
         return Ch.addMovie(
             title=title,
+            description=description,
             filename=filename,
             location=location,
             upcoming=upcoming,
@@ -163,6 +167,9 @@ class RequestHandler(BaseHTTPRequestHandler):
     
     def handle_getOrderHistory(self, data):
         return getOrderHistory(data['ID'])
+    
+    def handle_addReview(self, data):
+        return Ch.addReview(data['movieId'], data['review'])
 
     @property
     def routes(self):
@@ -182,6 +189,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             '/Get-Movie': self.handle_getMovie,
             '/Add-Purchase': self.handle_addPurchase,
             '/Get-Order-History': self.handle_getOrderHistory,
+            '/Add-Review': self.handle_addReview,
         }
 
 # Run backend server
