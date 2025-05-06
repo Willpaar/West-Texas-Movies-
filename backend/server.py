@@ -10,6 +10,7 @@ from Functions.AddtoUsers import AddtoUsers
 from Functions.FetchUser import FetchUser
 from Functions.GetUserData import GetUserData
 from Functions.getOrderHistory import getOrderHistory
+from Functions.getOrders import getOrders
 import Functions.ChangeValues as Ch
 
 # This is the class to handle all requests to the backend
@@ -168,6 +169,9 @@ class RequestHandler(BaseHTTPRequestHandler):
     def handle_getOrderHistory(self, data):
         return getOrderHistory(data['ID'])
     
+    def handle_getOrders(self,data):
+        return getOrders(data['ID'])
+    
     def handle_addReview(self, data):
         return Ch.addReview(data['movieId'], data['review'])
 
@@ -190,6 +194,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             '/Add-Purchase': self.handle_addPurchase,
             '/Get-Order-History': self.handle_getOrderHistory,
             '/Add-Review': self.handle_addReview,
+            '/Get-Orders': self.handle_getOrders,
         }
 
 # Run backend server
