@@ -2,56 +2,49 @@ import React, { useState, useEffect, useRef } from 'react';
 import './SearchBody.css';
 
 export default function SearchBody() {
-  const [movies, setMovies]         = useState([]);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [upcomingMovies, setUpcomingMovies] = useState([]);
+  const [activeIndex, setActiveIndex]       = useState(0);
   const cardRefs = useRef([]); 
-  const [search, setSearch]         = useState('');
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     fetch('http://localhost:8000/get-movies')
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          setMovies(data.movies);
+          const filtered = data.movies.filter(m => parseInt(m.upcoming, 10) === 1);
+          setUpcomingMovies(filtered);
         }
       });
   }, []);
 
- 
+  // whenever activeIndex changes, scroll that card into center
   useEffect(() => {
     const el = cardRefs.current[activeIndex];
-    if (el) el.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+    }
   }, [activeIndex]);
-
-  
-  const filtered = movies.filter(movie =>
-    movie.title.toLowerCase().includes(search.trim().toLowerCase())
-  );
 
   return (
     <div className="searchBody">
+      {/* blurred backdrop */}
       <div
         className="carousel-bg"
         style={{
-          backgroundImage: filtered[activeIndex]
-            ? `url(/${filtered[activeIndex].img})`
+          backgroundImage: upcomingMovies[activeIndex]
+            ? `url(/${upcomingMovies[activeIndex].img})`
             : 'none'
         }}
       />
-      <input
-        className="inputTag"
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-        placeholder="Search movies..."
-      />
-
+      <input className='inputTag' value={search} onChange={(e)=>setSearch(e.target.value)} placeholder='Search movies...'/>
       <div className="upcomingMoviesCont">
-        {filtered.length === 0 ? (
-          <p>No movies found!</p>
+        {upcomingMovies.length === 0 ? (
+          <p>No upcoming movies right now!</p>
         ) : (
           <div className="carousel">
             <div className="moviesGrid">
-              {filtered.map((movie, i) => (
+              {upcomingMovies.filter(movie=>movie.title.toLowerCase().includes(search)).map((movie, i) => (
                 <div
                   key={i}
                   ref={el => (cardRefs.current[i] = el)}
@@ -78,3 +71,4 @@ export default function SearchBody() {
     </div>
   );
 }
+

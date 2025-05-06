@@ -82,3 +82,9 @@ def fixTimes(times):
 
 def checkPNG(movieTitle, pngName):
     return True
+
+def fixDescription(description):
+    # Strip all leading/trailing quote characters (single and double)
+    cleaned = description.strip('\'"')
+    return f'"{cleaned}"'
+
