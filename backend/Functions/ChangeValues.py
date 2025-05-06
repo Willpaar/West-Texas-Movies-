@@ -286,13 +286,18 @@ def deleteMovie(title, location, date):
     with open(UsersLocation, 'r', newline='') as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
+            # Make sure there are at least 6 columns
             if len(row) < 6:
-                continue  # Skip malformed rows
-            row_title, _, row_location, _, row_date, _ = row
+                continue
+
+            row_title    = row[0]
+            row_location = row[2]
+            row_date     = row[4]
+
             if row_title == title and row_location == location and row_date == date:
                 movie_found = True
-                continue  # Skip this row (i.e., delete it)
-            updated_rows.append(row)
+                continue  # delete this row
+            updated_rows.append(row)    
 
     # If no matching movie found, return an error code
     if not movie_found:
