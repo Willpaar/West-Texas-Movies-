@@ -14,6 +14,7 @@ export default function ProfileBody() {
     const [newNewPassword, setNewPassword] = useState('');
     const [inputs, setInputs] = useState(['']); 
     const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
     const [location, setLocation] = useState('');
     const [date, setDate] = useState('');
     const [file, setFile] = useState(null); // Added state to store file data
@@ -27,10 +28,7 @@ export default function ProfileBody() {
     const [orderLocation, setOrderLocation] = useState([]);
     const [orderNumOfTickets, setOrderNumOfTickets] = useState([]);
     const [selectedFileName, setSelectedFileName] = useState("");
-
-
-
-
+    const ticketIdx = 0;
 
     function addInput() {
         setInputs([...inputs, '']); // add a new empty string to the array
@@ -61,6 +59,10 @@ export default function ProfileBody() {
     
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
+    };
+
+    const handleDescriptionChange = (e) => {
+        setDescription(e.target.value);
     };
 
     useEffect(() => {
@@ -466,8 +468,8 @@ export default function ProfileBody() {
     const submitMovie = (e) => {
         e.preventDefault();
     
-        if (!title || !file || !date) {
-            alert("Please fill in the title, file, and date.");
+        if (!title || !file || !date || !description) {
+            alert("Please fill in the title, description, file, and date.");
             return;
         }
 
@@ -487,6 +489,7 @@ export default function ProfileBody() {
         let sendData = new FormData();
     
         // Add basic movie details to FormData
+        sendData.append('description', description)
         sendData.append('title', title);
         sendData.append('filePath', file.name); // File name as filePath
         sendData.append('location', location);
@@ -638,6 +641,33 @@ export default function ProfileBody() {
                                 <p><strong>Date:</strong> {orderDates[index]}</p>
                                 <p><strong>Time:</strong> {orderTimes[index]}</p>
                                 <p><strong>Number of Tickets:</strong> {orderNumOfTickets[index]}</p>
+                                {(() => {
+                                    const ticketCount = Number(orderNumOfTickets[index]);
+                                    console.log('ticketCount for index', index, '=', ticketCount);
+
+                                    if (!isNaN(ticketCount) && ticketCount > 0) {
+                                        return (
+                                            <div className="barcode-list">
+                                                {Array.from({ length: ticketCount }).map((_, key) => {
+                                                    const path = `/barcodes/barcode${key % 20}.png`;
+                                                    console.log(`Rendering barcode img with path: ${path}`);
+                                                    return (
+                                                        <img
+                                                            key={key}
+                                                            src={path}
+                                                            alt={`Ticket ${key + 1}`}
+                                                            className="barcode-img"
+                                                        />
+                                                    );
+                                                })}
+                                            </div>
+                                        );
+                                    } else {
+                                        return <p>No tickets found.</p>;
+                                    }
+                                })()}
+
+                                <img src={`/barcodes/barcode${index}.png`} alt="" />
                                 <button onClick={printTickets}>Print Tickets</button>
                             </div>
                         ))}
@@ -672,6 +702,13 @@ export default function ProfileBody() {
                                 value={title}
                                 onChange={handleTitleChange}
                                 required
+                            />
+
+                            <input type="text" 
+                            placeholder='Description'
+                            value={description}
+                            onChange={handleDescriptionChange}
+                            required
                             />
 
                             <div className="choosefile">
