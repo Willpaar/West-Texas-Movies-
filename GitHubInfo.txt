@@ -1,0 +1,46 @@
+hey yall so we dont accidentally destory our main file
+create your own branches from the main that you can code in
+
+just go to the GitHub repo and click on branches
+create a new branch there with your name
+
+heres some basic terminal commands you might need:
+
+link with the github:
+1. change to local path
+$ cd path/to/your/project
+
+2. initialize
+$ git init
+
+3.link to GitHub
+git remote add origin https://github.com/Willpaar/West-Texas-Movies-
+
+You should be able to pull and push from the repository now
+
+
+Link local code to your own branch:
+1. create branch locally (if not done yet)
+$ git checkout -b branch-name
+
+2. switch to branch 
+git checkout branch-name
+
+3. set upstream so you can push and pull normally
+$ git push -u origin branch-name
+
+You can now push and pull to your own branch
+
+
+Update your branch with anything new in the main without breaking your progress:
+$ git fetch origin
+$ git merge origin/main
+
+
+add your code to main:
+1. Go to your repo on GitHub.
+2. Click "Compare & pull request".
+3. Make sure you're merging your-branch-name → main.
+4. Submit the pull request.
+5. You can then click merge to officially add to main
+
