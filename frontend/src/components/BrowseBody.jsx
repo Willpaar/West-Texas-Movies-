@@ -59,13 +59,10 @@ export default function BrowseBody({ movies }) {
     console.log(movies);
     return (
         <div className="browseBody">
-            <h1>Browse Movies</h1>
-
             <div className="movies-list">
                 {nonUpcomingMovies.length > 0 ? (
                     nonUpcomingMovies.map((movie, index) => (
                         <div key={index} className="movie-card">
-                            <h2>{movie.title}</h2>
                             <img src={`/${movie.img}`} alt={movie.title} className="movie-img" />
                             <div className="showtimes">
                                 {movie.showtimes.map((showtime, idx) => (

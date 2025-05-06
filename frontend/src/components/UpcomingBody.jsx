@@ -1,27 +1,57 @@
-// UpcomingBody.js
 import React, { useState, useEffect, useRef } from 'react';
 import './UpcomingBody.css';
 
 export default function Upcoming() {
-  const [movies, setMovies]     = useState([]);
-  const [activeIndex, setIndex] = useState(0);
-  const trackRef                = useRef(null);
+  const [movies, setMovies]       = useState([]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [scrollIndex, setScrollIndex] = useState(0);
+  const [cardShift, setCardShift]     = useState(0);
+  const trackRef                    = useRef(null);
+
+ 
+  const endBuffer = 3;
 
   useEffect(() => {
     fetch('http://localhost:8000/get-movies')
       .then(r => r.json())
       .then(data => {
         if (data.success) {
-          const list = data.movies.filter(m => +m.upcoming === 1);
-          setMovies(list);
-          setIndex(0);
+          const up = data.movies.filter(m => +m.upcoming === 1);
+          setMovies(up);
+          setActiveIndex(0);
+          setScrollIndex(0);
         }
       })
       .catch(console.error);
   }, []);
 
-  const prev = () => setIndex(i => Math.max(0, i - 1));
-  const next = () => setIndex(i => Math.min(movies.length - 1, i + 1));
+ 
+  useEffect(() => {
+    if (!trackRef.current || !movies.length) return;
+    const card = trackRef.current.querySelector('.movieCard');
+    const style = getComputedStyle(trackRef.current);
+    const gap   = parseInt(style.gap, 10) || 0;
+    setCardShift(card.offsetWidth + gap);
+  }, [movies]);
+
+ 
+  useEffect(() => {
+    if (trackRef.current) {
+      trackRef.current.style.transform =
+        `translateX(-${scrollIndex * cardShift}px)`;
+    }
+  }, [scrollIndex, cardShift]);
+
+  const maxScroll = Math.max(0, movies.length - (endBuffer + 1));
+
+  const prev = () => {
+    setActiveIndex(i => Math.max(i - 1, 0));
+    setScrollIndex(s => Math.max(s - 1, 0));
+  };
+  const next = () => {
+    setActiveIndex(i => Math.min(i + 1, movies.length - 1));
+    setScrollIndex(s => Math.min(s + 1, maxScroll));
+  };
 
   if (!movies.length) {
     return (
@@ -56,7 +86,7 @@ export default function Upcoming() {
             <div
               key={i}
               className={`movieCard${i === activeIndex ? ' active' : ''}`}
-              onClick={() => setIndex(i)}
+              onClick={() => setActiveIndex(i)}
             >
               <img src={`/${m.img}`} alt={m.title} className="movieImage"/>
               <h2>{m.title}</h2>
