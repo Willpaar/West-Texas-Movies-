@@ -117,7 +117,7 @@
     font-size: 1vw;
 }
 
-.inputCont button {
+.inputCont button, .newButton {
     background-color: #616161;
     color: white;
     padding: 10px;

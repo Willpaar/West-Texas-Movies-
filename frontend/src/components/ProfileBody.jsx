@@ -1,6 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import './ProfileBody.css';
 
+function getTotalFromList(ticketList) {
+    return ticketList.reduce((total, ticket) => {
+      const num = parseInt(ticket, 10);
+      return isNaN(num) ? total : total + num;
+    }, 0);
+  }
+
+  function getTodaysShowtimesFlat(movies) {
+    const today = new Date();
+    const todayStr = today.toLocaleDateString('en-US'); // e.g., "5/6/2025"
+  
+    const flatList = [];
+  
+    movies.forEach(movie => {
+      movie.showtimes.forEach(show => {
+        if (show.date === todayStr) {
+          flatList.push({
+            title: movie.title,
+            location: show.location,
+            date: show.date,
+            times: show.times
+          });
+        }
+      });
+    });
+  
+    return flatList;
+  }
+  
+  
+  
 export default function ProfileBody() {
     const [userData, setUserData] = useState(null);
     const [newEmail, setEmail] = useState('');
@@ -28,6 +59,8 @@ export default function ProfileBody() {
     const [orderLocation, setOrderLocation] = useState([]);
     const [orderNumOfTickets, setOrderNumOfTickets] = useState([]);
     const [selectedFileName, setSelectedFileName] = useState("");
+    const [orderNumOfTicketsAll,setOrderNumOfTicketsAll] = useState(0)
+    const [movies,setMovies] = useState([])
     const ticketIdx = 0;
 
     function addInput() {
@@ -580,9 +613,66 @@ export default function ProfileBody() {
     const printTickets = () => {
         alert('Tickets Printed!')
     }
+
+    function getReport() {
+        fetch('http://localhost:8000/Get-Orders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ID: parseInt(0) })
+        })
+            .then(response => response.json())
+            .then(orderHistory => {
+                // Assuming orderHistory is an array of order objects
+                const orders = Object.values(orderHistory)[1];
+
+                const titles = [];
+                const dates = [];
+                const times = [];
+                const locations = [];
+                const numTickets = [];
+
+                orders.forEach(order => {
+                    titles.push(order.movieTitle);
+                    dates.push(order.date);
+                    times.push(order.time);
+                    locations.push(order.location);
+                    numTickets.push(order.numTickets);
+                });
+
+                setOrderMovieTitles(titles);
+                setOrderDates(dates);
+                setOrderTimes(times);
+                setOrderLocation(locations);
+                setOrderNumOfTicketsAll(getTotalFromList(numTickets));
+
+            
+            })
+            .catch(err => console.error('Error fetching order history:', err));
+
+
+            fetch('http://localhost:8000/get-movies')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        setMovies(getTodaysShowtimesFlat(data.movies));
+                    } else {
+                        console.error('Failed to fetch movies:', data.errorCode);
+                    }
+                })
+                .catch(error => console.error('Error fetching movies:', error));
+
+            alert(
+                "Total number of tickets: " + orderNumOfTicketsAll +
+                "\nTotal revenue: $" + (orderNumOfTicketsAll * 10.65).toFixed(2) +
+                "\n\nMovies playing today:\n" +
+                movies.map(item =>
+                  `• ${item.title}\n  Location: ${item.location}\n  Times: ${item.times}`
+                ).join("\n\n")
+              ); 
+    }
     
     return (
-        <div className="profileBody">
+        <div className="profileBody relative">
             <div className="options">
                 <a href="#User">User Settings</a>
                 <a href="#OrderHistory">Order History</a>
@@ -679,7 +769,9 @@ export default function ProfileBody() {
                 {admin && (
                     <div id="Admin" className="adminSettings">
                         <h1>Admin Settings</h1>
-
+                        <div className="inputCont">
+                        <button onClick={()=>getReport()}>Get Status Report</button>
+                        </div>
                         {/* Give Admin Section */}
                         <div className="inputCont">
                             <p>Give Admin</p>
