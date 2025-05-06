@@ -1,0 +1,113 @@
+.PurchaseBody {
+    padding: 20px;
+    font-family: sans-serif;
+  }
+  
+  .PurchaseBody h1 {
+    margin-bottom: 30px;
+  }
+  
+  .purchaceCont {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    column-gap: 10px;
+    align-items: right;
+  }
+  
+  .coverCont img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  
+  .rightCont {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .detailsCont {
+    font-size: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .ticketSelector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .ticketSelector button {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+  }
+  
+  
+  .ticketSelector input {
+    width: 60px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px;
+  }
+  
+  .detailsCont input[type='number'],
+  .detailsCont select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .cardDateAndCVV {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  .detailsCont button {
+    padding: 12px;
+    border: none;
+    background-color: #ff5900;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .cartCont {
+    padding: 16px;
+    background-color: #000000;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .cartCont h1 {
+    margin-top: 0;
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+  }
+  
+  .cartCont p {
+    margin: 8px 0;
+  }
+  
+  .cartCont hr {
+    margin: 7px 0;
+  }
+  
+  .cartCont h3 {
+    margin: 12px 0 0;
+  }
+  
+  

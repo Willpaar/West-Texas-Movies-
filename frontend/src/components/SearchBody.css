@@ -3,6 +3,12 @@
     padding: 20px;
 }
 
+
+.moviesGrid::-webkit-scrollbar {
+  width: 0;      
+  height: 8px;   
+}
+
 .upcomingMoviesCont {
     margin-top: 20px;
 }
@@ -18,8 +24,8 @@
 
 
 .movieCard {
-    width: 350px;
-    margin-top: 5rem;
+    width: 250px;
+    margin-top: 1rem;
     background-color: rgba(0,0,0,0.6);
     border-radius: 10px;
     overflow: hidden;
@@ -29,11 +35,9 @@
     text-align: center;
     transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
-    animation: scroll 40s linear infinite;
 }
 
 .movieCard:hover {
-    animation-play-state: paused;
     box-shadow:
     0 0 30px rgba(255, 255, 255, 0.6),
     0 0 80px rgba(255, 81, 0, 0.7),
@@ -45,10 +49,6 @@
     to { transform: translateX(-100%); }
   }
   
-
-  .searchBody .movieCard:hover {
-    animation-play-state: paused;
-  }
   
 .movieImage {
     width: 100%;
@@ -69,4 +69,5 @@
   width: 320px;
   font-size: 20px;
   padding: 0 4px;
+  
 }

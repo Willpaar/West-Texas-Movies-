@@ -17,8 +17,6 @@ def getMovie(ID):
                     'img': row['Img'],
                     'location': row['Location'],
                     'date': row['Date'],
-                    'description': row['Description'],                    
-                    'reviews': row['Reviews']
                 }
         return -1  
 
