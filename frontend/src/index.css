@@ -1,0 +1,20 @@
+/*
+this is the main styles file 
+any styles you want to be global put in here
+*/
+
+/* Reset default browser styles a bit */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto Slab', sans-serif;
+    text-decoration: none;
+
+  }
+  
+  /* Set global font and background */
+  body {
+    background-color: #000000; /* light neutral background */
+    color:white;
+  }
